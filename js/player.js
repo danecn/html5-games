@@ -24,16 +24,16 @@ var MMan = Class.extend({
      * An array of assets
      * @type Array
      */
-    assets: ["running01.png",
-            "running02.png",
-            "running03.png",
-            "running04.png",
-            "running05.png",
-            "running06.png",
-            "running07.png",
-            "running08.png",
-            "running09.png",
-            "running10.png"],
+    assets: ["rightRun01.png",
+            "rightRun02.png",
+            "rightRun03.png",
+            "rightRun04.png",
+            "rightRun05.png",
+            "rightRun06.png",
+            "rightRun07.png",
+            "rightRun08.png",
+            "rightRun09.png",
+            "rightRun10.png"],
 
     /**
      * The current state in the assets array
