@@ -2,6 +2,10 @@
 
 var MMan = Class.extend({
 
+	x: 0,
+	
+	y: 0,
+
     /**
      * Milliseconds per frame, the number of milliseconds between each animation frame
      * @type Number
@@ -12,14 +16,42 @@ var MMan = Class.extend({
      * Accumulating delta, will accumulate until greater than MPF
      * @type Number
      */
-    acDelta: 0,
+    acDelta: 36,
 
+    /** The maximum height of the jump
+     * @type Number
+     */
+    jumpHeight: 64,
+    
+    /**
+     * The amount of time to spend in the air when jumping
+     * @type Number
+     */
+    jumpHangTime: 0.5,
+    
+    /** The rate to fall at
+     * @type Number
+     */
+    fallMultiplyer: 1.5,
+    
     /**
      * Used to calculate the delta time between the current frame and the last
      * @type Number
      */
     lastUpdateTime: 0,
 
+    /** The speed to progress alone the sine wave that defines
+     * the jumping arc
+     * @type Number
+     */
+    jumpSinWaveSpeed: 0,
+        
+    /**
+     * The current position on the sine wave that defines the jump arc
+     * @type Number
+     */
+    jumpSinWavePos: 0,
+    
     /**
      * An array of assets
      * @type Array
@@ -34,7 +66,16 @@ var MMan = Class.extend({
             "rightRun08.png",
             "rightRun09.png",
             "rightRun10.png"],
-
+		
+	waitIdx: 1,
+	waitList: [ "rightstance01.png",
+			"rightstance02.png",
+			"rightstance03.png",
+			"rightstance01.png"],
+			
+	last: "",
+	grounded: false,
+			
     /**
      * The current state in the assets array
      * @type Number
@@ -43,23 +84,26 @@ var MMan = Class.extend({
 
     //-----------------------------------------
     //
-    init: function () {},
+    init: function (x, y) {
+		this.x = x;
+		this.y = y;
+		this.jumpSinWaveSpeed = (Math.PI/2) / this.jumpHangTime;
+		
+	},
 
     //-----------------------------------------
     // Manages the running state of the player
     run: function() {
         var delta = Date.now() - this.lastUpdateTime;
         if (this.acDelta > this.MPF) {
-            clear();
             this.acDelta = 0;
+			
+			clearSprite(this.last, this.x, this.y);
 
-            //if (Key.isDown(Key.LEFT)) {
-                drawSprite(this.assets[this.index], 30, 150);
-            //}
+            drawSprite(this.assets[this.index], this.x, this.y);
 
-            //else if (Key.isDown(Key.RIGHT)) {
-            //    drawSprite(this.assets[this.index], 30, 150);
-            //}
+			this.last = this.assets[this.index];
+
             this.index = (this.index + 1) % this.assets.length;
         } else {
             this.acDelta += delta;
@@ -70,7 +114,54 @@ var MMan = Class.extend({
     //-----------------------------------------
     // Manages the waiting state of the player
     wait: function() {
+		var delta = Date.now() - this.lastUpdateTime;
+        if ((this.waitIdx && this.acDelta > this.MPF) || this.acDelta > this.MPF*100) {
+            this.acDelta = 0;
+			
+			clearSprite(this.last, this.x, this.y);
 
+            drawSprite(this.waitList[this.waitIdx], this.x, this.y);
+
+			this.last = this.assets[this.waitIdx];
+
+            this.waitIdx = (this.waitIdx + 1) % this.waitList.length;
+        } else {
+            this.acDelta += delta;
+        }
+        this.lastUpdateTime = Date.now();
+    },
+    jump: function() {
+	    var delta = Date.now() - this.lastUpdateTime;
+	    if (this.acDelta > this.MPF) {
+			this.acDelta = 0;
+			
+	        
+	    clearSprite(this.last, this.x, this.y);
+	    if (!this.grounded) {
+
+               var lastHeight = this.jumpSinWavePos;
+	       
+               // the new position on the sine wave
+               this.jumpSinWavePos += this.jumpSinWaveSpeed * 0.01;
+
+               // we have fallen off the bottom of the sine wave, so continue falling
+               // at a predetermined speed
+               if (this.jumpSinWavePos >= Math.PI)
+                    this.y += this.jumpHeight / this.jumpHangTime * this.fallMultiplyer * 0.01; 
+               // otherwise move along the sine wave
+               else
+                   this.y -= (Math.sin(this.jumpSinWavePos) - Math.sin(lastHeight)) * this.jumpHeight;
+           }
+	   
+            drawSprite(this.waitList[this.waitIdx], this.x, this.y);
+
+	    this.last = this.assets[this.waitIdx];
+
+            this.waitIdx = (this.waitIdx + 1) % this.waitList.length;
+        } else {
+            this.acDelta += delta;
+        }
+        this.lastUpdateTime = Date.now(); 
     }
 });
 

@@ -97,6 +97,22 @@ var SpriteSheetClass = Class.extend({
 
 });
 
+function clearSprite(spritename, posX, posY) {
+	for(var sheetName in gSpriteSheets) {
+
+		var sheet = gSpriteSheets[sheetName];
+		var sprite = sheet.getStats(spritename);
+
+        if(sprite === null) {
+            continue;
+        }
+
+		ctx.clearRect(posX+sprite.cx, posY+sprite.cy, sprite.w, sprite.h);
+
+		return;
+	}
+}
+
 //-----------------------------------------
 // External-facing function for drawing sprites based
 // on the sprite name

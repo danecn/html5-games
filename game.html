@@ -29,7 +29,11 @@
         // The distance the player travels per frame
         frameDistance= canvasWidth / 100,
 
-        player = new MMan();
+        player = new MMan(30, 150),
+		
+		player2 = new MMan(70, 150),
+		
+		player3 = new MMan(110, 150);
 
         //Helper object for key commands
         var Key = {
@@ -108,6 +112,8 @@
             setTimeout(function() {
                 requestAnimFrame(draw);
                 player.run();
+				player2.wait();
+				player3.jump();
             }, 1000 / FPS);
         };
 
