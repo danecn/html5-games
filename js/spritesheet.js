@@ -17,119 +17,119 @@ var gSpriteSheets = {};
 var SpriteSheetClass = Class.extend({
 
     // The Image object
-	img: null,
+    img: null,
 
     // The URL path of the atlas
-	url: "",
+    url: "",
 
     // An array of all the sprites in our atlas.
-	sprites: [],
+    sprites: [],
 
-	//-----------------------------------------
-	init: function () {},
+    //-----------------------------------------
+    init: function () {},
 
-	//-----------------------------------------
+    //-----------------------------------------
     // Load the atlas at the path 'imgName' into
     // memory
-	load: function (imgName) {
+    load: function (imgName) {
         this.url = imgName;
 
-		var img = new Image();
-		img.src = imgName;
-		this.img = img;
+        var img = new Image();
+        img.src = imgName;
+        this.img = img;
 
-		gSpriteSheets[imgName] = this;
-	},
+        gSpriteSheets[imgName] = this;
+    },
 
-	//-----------------------------------------
-	// Define a sprite for this atlas
-	defSprite: function (name, x, y, w, h, cx, cy) {
-		var spt = {
-			"id": name,
-			"x": x,
-			"y": y,
-			"w": w,
-			"h": h,
-			"cx": cx === null ? 0 : cx,
-			"cy": cy === null ? 0 : cy
-		};
+    //-----------------------------------------
+    // Define a sprite for this atlas
+    defSprite: function (name, x, y, w, h, cx, cy) {
+        var spt = {
+            "id": name,
+            "x": x,
+            "y": y,
+            "w": w,
+            "h": h,
+            "cx": cx === null ? 0 : cx,
+            "cy": cy === null ? 0 : cy
+        };
 
-		this.sprites.push(spt);
-	},
+        this.sprites.push(spt);
+    },
 
-	//-----------------------------------------
+    //-----------------------------------------
     // Parse the JSON file passed in
-	parseAtlasDefinition: function (atlasJSON) {
+    parseAtlasDefinition: function (atlasJSON) {
 
         //var parsed = JSON.parse(atlasJSON);
         var parsed = atlasJSON;
 
         // For each sprite in the parsed JSON
-		for(var key in parsed.frames) {
-			var sprite = parsed.frames[key];
+        for(var key in parsed.frames) {
+            var sprite = parsed.frames[key];
 
-			/**
-			 * Define the center of the sprite as an offset
-			 *
-			 * IMPORTANT to round the offsets; without rounding
-			 * there will be data loss in the images
-			 */
-			var cx = -(((sprite.w * 0.5) + 0.5) << 0);
-			var cy = -(((sprite.h * 0.5) + 0.5) << 0);
+            /**
+             * Define the center of the sprite as an offset
+             *
+             * IMPORTANT to round the offsets; without rounding
+             * there will be data loss in the images
+             */
+            var cx = -(((sprite.w * 0.5) + 0.5) << 0);
+            var cy = -(((sprite.h * 0.5) + 0.5) << 0);
 
-			// Define the sprite for this sheet by calling
+            // Define the sprite for this sheet by calling
             // defSprite to store it into the 'sprites' Array.
-			this.defSprite(key, sprite.x, sprite.y, sprite.w, sprite.h, cx, cy);
-		}
-	},
+            this.defSprite(key, sprite.x, sprite.y, sprite.w, sprite.h, cx, cy);
+        }
+    },
 
-	//-----------------------------------------
-	// Walk through all the sprite definitions for this
+    //-----------------------------------------
+    // Walk through all the sprite definitions for this
     // atlas, and find which one matches the name.
-	getStats: function (name) {
-		for(var i = 0; i < this.sprites.length; i++) {
+    getStats: function (name) {
+        for(var i = 0; i < this.sprites.length; i++) {
             if(this.sprites[i].id === name) {
                 return this.sprites[i];
             }
-		}
-		return null;
-	}
+        }
+        return null;
+    }
 
 });
 
 function clearSprite(spritename, posX, posY) {
-	for(var sheetName in gSpriteSheets) {
+    for(var sheetName in gSpriteSheets) {
 
-		var sheet = gSpriteSheets[sheetName];
-		var sprite = sheet.getStats(spritename);
+        var sheet = gSpriteSheets[sheetName];
+        var sprite = sheet.getStats(spritename);
 
         if(sprite === null) {
             continue;
         }
 
-		ctx.clearRect(posX+sprite.cx, posY+sprite.cy, sprite.w, sprite.h);
+        ctx.clearRect(posX+sprite.cx, posY+sprite.cy, sprite.w, sprite.h);
 
-		return;
-	}
+        return;
+    }
 }
 
 //-----------------------------------------
 // External-facing function for drawing sprites based
 // on the sprite name
 function drawSprite(spritename, posX, posY) {
-	for(var sheetName in gSpriteSheets) {
+    for(var sheetName in gSpriteSheets) {
 
-		var sheet = gSpriteSheets[sheetName];
-		var sprite = sheet.getStats(spritename);
+        var sheet = gSpriteSheets[sheetName];
+        var sprite = sheet.getStats(spritename);
 
         if(sprite === null) {
             continue;
         }
 
-		__drawSpriteInternal(sprite, sheet, posX, posY);
+        __drawSpriteInternal(sprite, sheet, posX, posY);
 
-		return;
-	}
+        return;
+    }
 }
 
 //-----------------------------------------
@@ -144,9 +144,9 @@ function __drawSpriteInternal(spt, sheet, posX, posY) {
     }
 
     var hlf = {
-		x: spt.cx,
-		y: spt.cy
-	};
+        x: spt.cx,
+        y: spt.cy
+    };
 
-	ctx.drawImage(sheet.img, spt.x, spt.y, spt.w, spt.h, posX + hlf.x, posY + hlf.y, spt.w, spt.h);
+    ctx.drawImage(sheet.img, spt.x, spt.y, spt.w, spt.h, posX + hlf.x, posY + hlf.y, spt.w, spt.h);
 }
