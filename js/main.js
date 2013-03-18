@@ -1,26 +1,23 @@
 "use strict";
 
 var canvas,
-
     ctx,
 
     // Width of the canvas in pixels
     canvasWidth = 300,
-
     // Height of the canvas in pixels
     canvasHeight = 250,
 
     // Frames per second
-    FPS = 60,
+    FPS = 30,
 
     // The distance the player travels per frame
     frameDistance= canvasWidth / 100,
 
-    player = new MMan(30, 150),
-
-    player2 = new MMan(70, 150),
-
-    player3 = new MMan(110, 150);
+    entities = [];
+//    player = new MMan("runner", 30, 150),
+//    player2 = new MMan("idler", 70, 150),
+//    player3 = new MMan("jumper", 110, 150);
 
 //Helper object for key commands
 var Key = {
@@ -89,19 +86,27 @@ var setup = function() {
     }
   });
 
+  entities.push(new MMan("runner", 30, 150));
+  entities.push(new Box("redbox", 70, 150, "#f00"));
+  entities.push(new MMan("jumper", 110, 150));
+
   window.addEventListener('keyup', function(event) { Key.onKeyUp(event); }, false);
   window.addEventListener('keydown', function(event) { Key.onKeyDown(event); }, false);
 
-  draw();
+  step();
 };
 
-function draw() {
+function step() {
   setTimeout(function() {
-    requestAnimFrame(draw);
-    player.run();
-    player2.wait();
-    player3.jump();
+    var i;
+    for (i = 0; i < entities.length; i++) {
+      entities[i].update();
+    }
+    for (i = 0; i < entities.length; i++) {
+      entities[i].draw(ctx);
+    }
+    requestAnimFrame(step);
   }, 1000 / FPS);
-};
+}
 
-if(supported) setup();
+if(supported()) setup();

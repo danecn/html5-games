@@ -1,7 +1,7 @@
 callback({
     "frames": {
         "startRunning.png" : {"x": 318, "y": 18, "w": 31, "h": 35},
-        
+
         "rightRun01.png" : {"x": 350,"y": 19,"w": 20,"h": 34},
         "rightRun02.png" : {"x": 371,"y": 18,"w": 23,"h": 35},
         "rightRun03.png" : {"x": 394,"y": 19,"w": 32,"h": 34},
@@ -12,19 +12,19 @@ callback({
         "rightRun08.png" : {"x": 539,"y": 19,"w": 30,"h": 34},
         "rightRun09.png" : {"x": 570,"y": 20,"w": 34,"h": 33},
         "rightRun10.png" : {"x": 604,"y": 20,"w": 29,"h": 33},
-        
+
         "enter01.png" : {"x": 5,"y": 4,"w": 8,"h": 48},
-        "enter02.png" : {"x": 17,"y": 23,"w": 22,"h": 30},		
+        "enter02.png" : {"x": 17,"y": 23,"w": 22,"h": 30},
         "enter03.png" : {"x": 43,"y": 10,"w": 30,"h": 42},
         "enter04.png" : {"x": 77,"y": 13,"w": 30,"h": 39},
         "enter05.png" : {"x": 111,"y": 16,"w": 30,"h": 36},
         "enter06.png" : {"x": 145,"y": 18,"w": 30,"h": 34},
         "enter07.png" : {"x": 179,"y": 20,"w": 30,"h": 32},
-        
+
         "rightstance01.png" : {"x": 213,"y": 18,"w": 30,"h": 34},
         "rightstance02.png" : {"x": 247,"y": 18,"w": 30,"h": 34},
         "rightstance03.png" : {"x": 281,"y": 18,"w": 30,"h": 34},
-        
+
         "jumpRight01.png": {"x":5, "y":73, "w":24, "h":37},
         "jumpRight02.png": {"x":34, "y":69, "w":15, "h":41},
         "jumpRight03.png": {"x":55, "y":64, "w":19, "h":46},
