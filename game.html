@@ -13,10 +13,10 @@
     <script type="text/javascript">
         "use strict";
 
-        var canvas, 
-        
+        var canvas,
+
         ctx,
-        
+
         // Width of the canvas in pixels
         canvasWidth = 300,
 
@@ -30,9 +30,9 @@
         frameDistance= canvasWidth / 100,
 
         player = new MMan(30, 150),
-        
+
         player2 = new MMan(70, 150),
-        
+
         player3 = new MMan(110, 150);
 
         //Helper object for key commands
@@ -43,7 +43,7 @@
             RIGHT: 39,
             DOWN: 40,
             SPACE: 32,
-            
+
             isDown: function(keyCode) {
                 return this.pressed[keyCode] != undefined;
             },
