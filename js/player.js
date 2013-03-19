@@ -106,7 +106,7 @@ var MMan = Class.extend({
   // Manages the waiting state of the player
   drawIdle: function() {
     drawSprite(this.waitList[this.waitIdx], this.x, this.y);
-    this.last = this.assets[this.waitIdx];
+    this.last = this.waitList[this.waitIdx];
     this.waitIdx = (this.waitIdx + 1) % this.waitList.length;
   },
   drawJump: function() {
